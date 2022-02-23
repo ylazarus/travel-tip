@@ -18,7 +18,22 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
-            console.log('Map!', gMap);
+
+            gMap.addListener('click', ({ latLng }) => {
+                const name = prompt('Give name')
+                const pos = {
+                    name,
+                    coords: {
+                        lat: latLng.lat(),
+                        lng: latLng.lng()
+                    }
+                }
+                // onAddPlace(pos)
+                // renderPlaces()
+                console.log(pos);
+                gMap.setCenter(pos.coords);
+            })
+            // console.log('Map!', gMap);
         })
 }
 
@@ -40,7 +55,7 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = ''; //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyAH7HndJAEGIlo1EdEl3LMTzkyC6XQKKPU'; //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;

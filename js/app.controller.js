@@ -7,12 +7,21 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 
+// todo add API to google maps
+// Enable the user to pick a location by clicking on map
+
+// Build the LocationService managing Locations:
+// {id, name, lat, lng, weather, createdAt, updatedAt}
+// 5. Locations are saved to localStorage
+
 function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
+
+        
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
