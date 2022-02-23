@@ -41,11 +41,9 @@ function deleteLoc(locId){
     storage.saveToStorage(STORAGE_KEY, gLocs)
 }
 
-function getLink(place){
-
-    const loc = {lat: 34, lng: 35}
-    return `http://127.0.0.1:5500/index.html?lat=${loc.lat}&lng=${loc.lng}`
-    // return `https://ylazarus.github.io/travel-tip/index.html?lat=${loc.lat}&lng=${loc.lng}`
+function getLink(lat, lng){
+    // return `http://127.0.0.1:5500/index.html?lat=${lat}&lng=${lng}`
+    return `https://ylazarus.github.io/travel-tip/index.html?lat=${lat}&lng=${lng}`
 }
 
 function getWeather(lat, lng) {

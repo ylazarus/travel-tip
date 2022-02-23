@@ -79,6 +79,7 @@ function onGetLocs() {
         <td>${loc.updatedAt}</td>
         <td><button onclick="onGo(${loc.lat}, ${loc.lng})">Go Here</button></td>
         <td><button onclick="onDelete(${loc.id})">Delete</button></td>
+        <td><button onclick="onCopyLink(${loc.lat}, ${loc.lng})" class="btn-copy-link">Copy location</button></td>
         '</tr>
         `
         })
@@ -111,8 +112,8 @@ function onDelete(locId) {
     onGetLocs()
 }
 
-function onCopyLink() {
-    navigator.clipboard.writeText(locService.getLink(place))
+function onCopyLink(lat, lng) {
+    navigator.clipboard.writeText(locService.getLink(lat, lng))
     alert('You have a link in your clipboard')
 }
 
