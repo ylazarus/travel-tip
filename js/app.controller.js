@@ -6,6 +6,7 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onDelete = onDelete
 
 // todo add API to google maps
 // Enable the user to pick a location by clicking on map
@@ -73,4 +74,9 @@ function onGetUserPos() {
 function onPanTo() {
   console.log("Panning the Map")
   mapService.panTo(35.6895, 139.6917)
+}
+
+function onDelete(locId) {
+    locService.deleteLoc(locId)
+    onGetLocs()
 }

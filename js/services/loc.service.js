@@ -5,11 +5,12 @@ import { storage } from './storage.service.js'
 export const locService = {
     getLocs,
     setLoc,
+    deleteLoc,
 }
 
 
 const STORAGE_KEY = 'locsDB'
-var gLocs;
+var gLocs = storage.loadFromStorage(STORAGE_KEY) || []
 
 function getLocs() {
     return new Promise((resolve, reject) => {
@@ -19,7 +20,6 @@ function getLocs() {
     });
 }
 function setLoc(pos){
-    gLocs = loadFromStorage(STORAGE_KEY) || []
     const loc = {
         id: Math.floor(Math.random()*1000),
         name: pos.name,
