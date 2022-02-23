@@ -7,6 +7,7 @@ window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onDelete = onDelete
+window.onGo = onGo
 
 // todo add API to google maps
 // Enable the user to pick a location by clicking on map
@@ -59,14 +60,14 @@ function onGetLocs() {
     var htmls = locs.map(loc =>{
         return `
         <tr>
-        <td>${loc.id}</td>
         <td>${loc.name}</td>
+        <td>${loc.id}</td>
         <td>${loc.lat}</td>
         <td>${loc.lng}</td>
         <td>${loc.createdAt}</td>
         <td>${loc.updatedAt}</td>
-        <td><button onclick="onGo(${loc.lat}, ${loc.lng})"></button></td>
-        <td><button onclick="onDelete(${loc.id})"></button></td>
+        <td><button onclick="onGo(${loc.lat}, ${loc.lng})">Go Here</button></td>
+        <td><button onclick="onDelete(${loc.id})">Delete</button></td>
         '</tr>
         `
     })
