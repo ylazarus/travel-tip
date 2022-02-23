@@ -5,6 +5,7 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
+    goToLocation
 }
 
 var gMap;
@@ -37,6 +38,10 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             })
             // console.log('Map!', gMap);
         })
+}
+
+function goToLocation(lat, lng){
+    gMap.setCenter({lat: lat, lng: lng})
 }
 
 function addMarker(loc) {

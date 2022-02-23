@@ -31,6 +31,10 @@ function getPosition() {
   })
 }
 
+function onGo(lat, lng){
+    mapService.goToLocation(lat, lng)
+}
+
 function onAddMarker() {
   console.log("Adding a marker")
   mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
@@ -39,9 +43,21 @@ function onAddMarker() {
 function onGetLocs() {
   locService.getLocs().then((locs) => {
     console.log("Locations:", locs)
-    var html = '<tr>'
+    var html = `<thead>
+    <tr>
+      <th>Name</th>
+      <th>ID</th>
+      <th>Lat</th>
+      <th>Lng</th>
+      <th>Created at:</th>
+      <th>Updated at:</th>
+      <th colspan="2">Options:</th>
+    </tr>
+  </thead>
+  <tbody>`
     var htmls = locs.map(loc =>{
         return `
+        <tr>
         <td>${loc.id}</td>
         <td>${loc.name}</td>
         <td>${loc.lat}</td>
@@ -50,10 +66,11 @@ function onGetLocs() {
         <td>${loc.updatedAt}</td>
         <td><button onclick="onGo(${loc.lat}, ${loc.lng})"></button></td>
         <td><button onclick="onDelete(${loc.id})"></button></td>
+        '</tr>
         `
     })
     html += htmls.join('')
-    html += '</tr>'
+    html +=  '</tbody>'
     document.querySelector(".locs").innerHTML = html
   })
 }
