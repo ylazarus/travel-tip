@@ -9,6 +9,7 @@ window.onGetUserPos = onGetUserPos
 window.onDelete = onDelete
 window.onGo = onGo
 window.onCopyLink = onCopyLink
+window.onGoToLocation = onGoToLocation
 
 // todo add API to google maps
 // Enable the user to pick a location by clicking on map
@@ -42,7 +43,9 @@ function getPosition() {
 }
 
 function onGo(lat, lng) {
-    mapService.goToLocation(lat, lng)
+    console.log(lat);
+    console.log(lng);
+  mapService.goToLocation(lat, lng)
 }
 
 function onAddMarker() {
@@ -65,8 +68,8 @@ function onGetLocs() {
     </tr>
   </thead>
   <tbody>`
-        var htmls = locs.map(loc => {
-            return `
+    var htmls = locs.map((loc) => {
+      return `
         <tr>
         <td>${loc.name}</td>
         <td>${loc.id}</td>
@@ -86,16 +89,17 @@ function onGetLocs() {
 }
 
 function onGetUserPos() {
-    getPosition()
-        .then((pos) => {
-            console.log("User position is:", pos.coords)
-            document.querySelector(
-                ".user-pos"
-            ).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
-        })
-        .catch((err) => {
-            console.log("err!!!", err)
-        })
+  getPosition()
+    .then((pos) => {
+      console.log("User position is:", pos.coords)
+      onGo(pos.coords.latitude, pos.coords.longitude)
+      document.querySelector(
+        ".user-pos"
+      ).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
+    })
+    .catch((err) => {
+      console.log("err!!!", err)
+    })
 }
 function onPanTo() {
     console.log("Panning the Map")
@@ -110,4 +114,13 @@ function onDelete(locId) {
 function onCopyLink() {
     navigator.clipboard.writeText(locService.getLink(place))
     alert('You have a link in your clipboard')
+}
+
+function onGoToLocation() {
+  var elSearchWord = document.querySelector("input[name=search]")
+  var userSearchWord = elSearchWord.value
+  mapService.getSearchedCoords(userSearchWord).then((pos) => {
+      console.log(pos);
+    onGo(pos.results[0].geometry.location.lat, pos.results[0].geometry.location.lng)//check accuracy of object
+  })
 }

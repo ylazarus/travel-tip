@@ -1,13 +1,15 @@
 
+// import { axios } from '../../lib/axios.js';
 import { locService } from './loc.service.js'
 
 export const mapService = {
     initMap,
     addMarker,
     panTo,
-    goToLocation
+    goToLocation,
+    getSearchedCoords
 }
-
+const API_KEY = 'AIzaSyAH7HndJAEGIlo1EdEl3LMTzkyC6XQKKPU'
 var gMap;
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
@@ -40,6 +42,16 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         })
 }
 
+function getSearchedCoords(searchTerms){
+    return axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${searchTerms}&key=${API_KEY}`
+    )
+    .then((res) => res.data)
+    .catch((err) => {
+        throw err
+    })
+    }
+
 function goToLocation(lat, lng){
     gMap.setCenter({lat: lat, lng: lng})
 }
@@ -62,7 +74,7 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyAH7HndJAEGIlo1EdEl3LMTzkyC6XQKKPU'; //TODO: Enter your API Key
+    
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;

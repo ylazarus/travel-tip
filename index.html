@@ -7,12 +7,14 @@
   </head>
   <body>
     <h1>TravelTip</h1>
+    <input type="text" name="search" placeholder="Search The World" />
+    <button onclick="onGoToLocation()" class="search">Search</button>
     <div id="map" style="width: 100%; height: 400px"></div>
     <button onclick="onAddMarker()" class="btn-add-marker">
       Add Marker Specific Location
     </button>
     <button onclick="onGetUserPos()" class="btn-user-pos">
-      Get User Position
+      Go To My Location
     </button>
     <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
     <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
@@ -23,6 +25,7 @@
       
     </table>
 
+    <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
   </body>
 </html>
