@@ -21,27 +21,8 @@ function onInit() {
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
-
-        gMap = mapService.getMap()
-        
-        gMap.addListener('click', onMap({ latLng }))
-        
 }
 
-function onMap(latLng) {
-    const name = prompt('Give name')
-    const pos = {
-        name,
-        coords: {
-            lat: latLng.lat(),
-            lng: latLng.lng()
-        }
-    }
-    // onAddPlace(pos)
-    // renderPlaces()
-    console.log(pos);
-    gMap.setCenter(pos.coords);
-}
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {

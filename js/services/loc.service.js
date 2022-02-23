@@ -1,31 +1,27 @@
-'use strict'
 
-import { storage } from './services/storage.services.js'
+
+import { storage } from './storage.service.js'
 
 export const locService = {
     getLocs,
-    setLoc
+    setLoc,
 }
 
-var gNextId = '101'
 
-const locs = [
-    { name: 'Greatplace', lat: 32.047104, lng: 34.832384 }, 
-    { name: 'Neveragain', lat: 32.047201, lng: 34.832581 }
-]
+const STORAGE_KEY = 'locsDB'
+var gLocs;
 
 function getLocs() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve(locs);
+            resolve(gLocs);
         }, 2000)
     });
 }
-
 function setLoc(pos){
-
+    gLocs = loadFromStorage(STORAGE_KEY) || []
     const loc = {
-        id: `L${gNextId++}`,
+        id: Math.floor(Math.random()*1000),
         name: pos.name,
         lat: pos.coords.lat,
         lng: pos.coords.lng,
@@ -33,9 +29,14 @@ function setLoc(pos){
         createdAt: new Date(),
         updatedAt: null,
     }
-    locs.unshift(loc)
-    //save to storage
+    gLocs.unshift(loc)
+    storage.saveToStorage(STORAGE_KEY, gLocs)
     console.log(loc);
+}
+
+function deleteLoc(locId){
+    gLocs.splice(gLocs.findIndex(loc => loc.id===locId), 1)
+    storage.saveToStorage(STORAGE_KEY, gLocs)
 }
 
 // function getWeather(lat, lng) {
