@@ -1,5 +1,10 @@
+'use strict'
+
+import { storage } from './services/storage.services.js'
+
 export const locService = {
-    getLocs
+    getLocs,
+    setLoc
 }
 
 var gNextId = '101'
@@ -17,7 +22,7 @@ function getLocs() {
     });
 }
 
-function setLoc(){
+function setLoc(pos){
 
     const loc = {
         id: `L${gNextId++}`,
@@ -29,7 +34,7 @@ function setLoc(){
         updatedAt: null,
     }
     locs.unshift(loc)
-    
+    //save to storage
     console.log(loc);
 }
 

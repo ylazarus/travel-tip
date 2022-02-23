@@ -1,9 +1,10 @@
 
+import { locService } from './services/loc.service.js'
 
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
 }
 
 var gMap;
@@ -28,9 +29,10 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                         lng: latLng.lng()
                     }
                 }
+                locService.setLoc(pos)
                 // onAddPlace(pos)
                 // renderPlaces()
-                console.log(pos);
+                // console.log(pos);
                 gMap.setCenter(pos.coords);
             })
             // console.log('Map!', gMap);

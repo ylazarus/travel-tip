@@ -13,6 +13,7 @@ window.onGetUserPos = onGetUserPos;
 // Build the LocationService managing Locations:
 // {id, name, lat, lng, weather, createdAt, updatedAt}
 // 5. Locations are saved to localStorage
+var gMap
 
 function onInit() {
     mapService.initMap()
@@ -21,7 +22,25 @@ function onInit() {
         })
         .catch(() => console.log('Error: cannot init map'));
 
+        gMap = mapService.getMap()
         
+        gMap.addListener('click', onMap({ latLng }))
+        
+}
+
+function onMap(latLng) {
+    const name = prompt('Give name')
+    const pos = {
+        name,
+        coords: {
+            lat: latLng.lat(),
+            lng: latLng.lng()
+        }
+    }
+    // onAddPlace(pos)
+    // renderPlaces()
+    console.log(pos);
+    gMap.setCenter(pos.coords);
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
