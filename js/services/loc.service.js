@@ -6,6 +6,8 @@ export const locService = {
     getLocs,
     setLoc,
     deleteLoc,
+    getLink,
+    getWeather,
 }
 
 
@@ -39,6 +41,14 @@ function deleteLoc(locId){
     storage.saveToStorage(STORAGE_KEY, gLocs)
 }
 
-// function getWeather(lat, lng) {
-//     return 'Wonderful'
-// }
+function getLink(place){
+
+    const loc = {lat: 34, lng: 35}
+    return `http://127.0.0.1:5500/index.html?lat=${loc.lat}&lng=${loc.lng}`
+    // return `https://ylazarus.github.io/travel-tip/index.html?lat=${loc.lat}&lng=${loc.lng}`
+}
+
+function getWeather(lat, lng) {
+    `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${W_KEY}`
+    return 'Wonderful'
+}

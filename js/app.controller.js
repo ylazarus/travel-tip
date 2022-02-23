@@ -8,6 +8,7 @@ window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onDelete = onDelete
 window.onGo = onGo
+window.onCopyLink = onCopyLink
 
 // todo add API to google maps
 // Enable the user to pick a location by clicking on map
@@ -17,35 +18,42 @@ window.onGo = onGo
 // 5. Locations are saved to localStorage
 
 function onInit() {
-  mapService
-    .initMap()
-    .then(() => {
-      console.log("Map is ready")
-    })
-    .catch(() => console.log("Error: cannot init map"))
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    if (urlParams.has('lat'&&'lng')){
+        var lat = +urlParams.get('lat')
+        var lng = +urlParams.get('lng')
+    }
+    console.log(lat, lng);
+    mapService
+        .initMap(lat, lng)
+        .then(() => {
+            console.log("Map is ready")
+        })
+        .catch(() => console.log("Error: cannot init map"))
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
-  console.log("Getting Pos")
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject)
-  })
+    console.log("Getting Pos")
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
 }
 
-function onGo(lat, lng){
+function onGo(lat, lng) {
     mapService.goToLocation(lat, lng)
 }
 
 function onAddMarker() {
-  console.log("Adding a marker")
-  mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
+    console.log("Adding a marker")
+    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
 }
 
 function onGetLocs() {
-  locService.getLocs().then((locs) => {
-    console.log("Locations:", locs)
-    var html = `<thead>
+    locService.getLocs().then((locs) => {
+        console.log("Locations:", locs)
+        var html = `<thead>
     <tr>
       <th>Name</th>
       <th>ID</th>
@@ -57,8 +65,8 @@ function onGetLocs() {
     </tr>
   </thead>
   <tbody>`
-    var htmls = locs.map(loc =>{
-        return `
+        var htmls = locs.map(loc => {
+            return `
         <tr>
         <td>${loc.name}</td>
         <td>${loc.id}</td>
@@ -70,31 +78,36 @@ function onGetLocs() {
         <td><button onclick="onDelete(${loc.id})">Delete</button></td>
         '</tr>
         `
+        })
+        html += htmls.join('')
+        html += '</tbody>'
+        document.querySelector(".locs").innerHTML = html
     })
-    html += htmls.join('')
-    html +=  '</tbody>'
-    document.querySelector(".locs").innerHTML = html
-  })
 }
 
 function onGetUserPos() {
-  getPosition()
-    .then((pos) => {
-      console.log("User position is:", pos.coords)
-      document.querySelector(
-        ".user-pos"
-      ).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
-    })
-    .catch((err) => {
-      console.log("err!!!", err)
-    })
+    getPosition()
+        .then((pos) => {
+            console.log("User position is:", pos.coords)
+            document.querySelector(
+                ".user-pos"
+            ).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
+        })
+        .catch((err) => {
+            console.log("err!!!", err)
+        })
 }
 function onPanTo() {
-  console.log("Panning the Map")
-  mapService.panTo(35.6895, 139.6917)
+    console.log("Panning the Map")
+    mapService.panTo(35.6895, 139.6917)
 }
 
 function onDelete(locId) {
     locService.deleteLoc(locId)
     onGetLocs()
+}
+
+function onCopyLink() {
+    navigator.clipboard.writeText(locService.getLink(place))
+    alert('You have a link in your clipboard')
 }
