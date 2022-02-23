@@ -26,10 +26,10 @@ function setLoc(pos){
 
     const loc = {
         id: `L${gNextId++}`,
-        name: 'can',
-        lat: 34,
-        lng: 45,
-        weather: getWeather(),
+        name: pos.name,
+        lat: pos.coords.lat,
+        lng: pos.coords.lng,
+        // weather: getWeather(),
         createdAt: new Date(),
         updatedAt: null,
     }
@@ -38,6 +38,6 @@ function setLoc(pos){
     console.log(loc);
 }
 
-function getWeather(lat, lng) {
-    return 'Wonderful'
-}
+// function getWeather(lat, lng) {
+//     return 'Wonderful'
+// }
