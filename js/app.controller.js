@@ -8,6 +8,7 @@ window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onDelete = onDelete
 window.onGo = onGo
+window.onGoToLocation = onGoToLocation
 
 // todo add API to google maps
 // Enable the user to pick a location by clicking on map
@@ -33,8 +34,10 @@ function getPosition() {
   })
 }
 
-function onGo(lat, lng){
-    mapService.goToLocation(lat, lng)
+function onGo(lat, lng) {
+    console.log(lat);
+    console.log(lng);
+  mapService.goToLocation(lat, lng)
 }
 
 function onAddMarker() {
@@ -57,8 +60,8 @@ function onGetLocs() {
     </tr>
   </thead>
   <tbody>`
-    var htmls = locs.map(loc =>{
-        return `
+    var htmls = locs.map((loc) => {
+      return `
         <tr>
         <td>${loc.name}</td>
         <td>${loc.id}</td>
@@ -71,8 +74,8 @@ function onGetLocs() {
         '</tr>
         `
     })
-    html += htmls.join('')
-    html +=  '</tbody>'
+    html += htmls.join("")
+    html += "</tbody>"
     document.querySelector(".locs").innerHTML = html
   })
 }
@@ -81,6 +84,7 @@ function onGetUserPos() {
   getPosition()
     .then((pos) => {
       console.log("User position is:", pos.coords)
+      onGo(pos.coords.latitude, pos.coords.longitude)
       document.querySelector(
         ".user-pos"
       ).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
@@ -95,6 +99,15 @@ function onPanTo() {
 }
 
 function onDelete(locId) {
-    locService.deleteLoc(locId)
-    onGetLocs()
+  locService.deleteLoc(locId)
+  onGetLocs()
+}
+
+function onGoToLocation() {
+  var elSearchWord = document.querySelector("input[name=search]")
+  var userSearchWord = elSearchWord.value
+  mapService.getSearchedCoords(userSearchWord).then((pos) => {
+      console.log(pos);
+    onGo(pos.results[0].geometry.location.lat, pos.results[0].geometry.location.lng)//check accuracy of object
+  })
 }
